@@ -1,0 +1,23 @@
+{
+  "name": "Transfer-Classroom-notifications-to-LINE",
+  "version": "1.0.0",
+  "description": "Google Classroomの投稿をLINEなどに転送します。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiro3pc/Transfer-Classroom-notifications-to-LINE.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hiro3pc/Transfer-Classroom-notifications-to-LINE/issues"
+  },
+  "homepage": "https://github.com/hiro3pc/Transfer-Classroom-notifications-to-LINE#readme",
+  "devDependencies": {
+    "@types/google-apps-script": "^1.0.41"
+  }
+}
