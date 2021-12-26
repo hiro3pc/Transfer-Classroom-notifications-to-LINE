@@ -1,4 +1,4 @@
-# Classroom の投稿を LINE に転送する BOT について
+# Classroom の投稿を LINE に転送する BOT について （学校の総合の授業用）
 
 ## Google で調べてわかったこと
 
