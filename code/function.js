@@ -15,7 +15,7 @@ function printError(e) {
 function getCourseWorks() {
     const ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("courseWorks");
     const courseWorksList = Classroom.Courses.CourseWork.list(COURSE_ID).courseWork;
-    if (courseWorksList.length == 0) {
+    if (typeof courseWorksList === "undefined" || courseWorksList.length === 0) {
         console.log("courseWorksList is empty");
     } else {
         const courseWorks = [];
@@ -119,7 +119,7 @@ function getCourseWorkMaterials() {
     const ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("courseWorkMaterials");
     const courseWorkMaterialsList = Classroom.Courses.CourseWorkMaterials.list(COURSE_ID).courseWorkMaterial;
     const courseWorkMaterials = [];
-    if (courseWorkMaterialsList.length == 0) {
+    if (typeof courseWorkMaterialsList === "undefined" || courseWorkMaterialsList.length === 0) {
         console.log("courseWorkMaterialsList is empty");
     } else {
         courseWorkMaterialsList.forEach((element) => {
@@ -187,7 +187,7 @@ function getAnnouncements() {
     const ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("announcements");
     const announcementsList = Classroom.Courses.Announcements.list(COURSE_ID).announcements;
     const announcements = [];
-    if (announcementsList.length == 0) {
+    if (typeof announcementsList === "undefined" || announcementsList.length === 0) {
         console.log("announcementsList is empty");
     } else {
         announcementsList.forEach((element) => {
