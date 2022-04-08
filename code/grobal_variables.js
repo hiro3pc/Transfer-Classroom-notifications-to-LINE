@@ -3,6 +3,7 @@ const COURSE_ID = "";
 
 // LINE Flexの色
 const PARTS_COLOR = { contentsType: "#000000", title: "#e9b24c", background: "#f7f9f8", text: "#303030", finePrint: "#aaaaaa" }; //e9b24c
+//contents color は New announcement とかの色
 
 // 添付ファイルのリンクの色とアイコン
 const ICON_COLOR = {
@@ -34,7 +35,7 @@ const ICON_COLOR = {
 };
 
 const ICON_LINK = {
-    //wikiから取得
+    //Wikipediaから取得
     //google
     googledocs: "https://raw.githubusercontent.com/hiro3pc/Transfer-Classroom-notifications-to-LINE/V4/image/icon/800px-Google_Docs_2020_Logo.svg.png",
     googleforms: "https://raw.githubusercontent.com/hiro3pc/Transfer-Classroom-notifications-to-LINE/V4/image/icon/Google_Forms_2020_Logo.svg.png",
