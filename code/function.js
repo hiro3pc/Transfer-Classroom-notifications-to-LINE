@@ -15,224 +15,236 @@ function printError(e) {
 function getCourseWorks() {
     const ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("courseWorks");
     const courseWorksList = Classroom.Courses.CourseWork.list(COURSE_ID).courseWork;
-    const courseWorks = [];
-    courseWorksList.forEach((element) => {
-        if (element.materials != undefined) {
-            const material = converteMaterial(element.materials);
-            element.materialTitleAndUrlText = material[0];
-            element.materialTitleAndUrlObj = material[1];
-            element.materialUnique = material[2];
-        }
-        courseWorks.unshift([
-            element.alternateLink,
-            element.assigneeMode,
-            element.assignment,
-            element.associatedWithDeveloper,
-            element.courseId,
-            element.creationTime,
-            element.creatorUserId,
-            element.description,
-            element.dueDate,
-            element.dueTime,
-            element.id,
-            element.individualStudentsOptions,
-            element.materials,
-            element.maxPoints,
-            element.multipleChoiceQuestion,
-            element.scheduledTime,
-            element.state,
-            element.submissionModificationMode,
-            element.title,
-            element.topicId,
-            element.updateTime,
-            element.workType,
-            element.materialTitleAndUrlText,
-            element.materialTitleAndUrlObj,
-            element.materialUnique,
-        ]);
-    });
-    ss.getRange(2, 1, courseWorks.length, courseWorks[0].length).setValues(courseWorks);
+    if (courseWorksList.length == 0) {
+        console.log("courseWorksList is empty");
+    } else {
+        const courseWorks = [];
+        courseWorksList.forEach((element) => {
+            if (element.materials != undefined) {
+                const material = converteMaterial(element.materials);
+                element.materialTitleAndUrlText = material[0];
+                element.materialTitleAndUrlObj = material[1];
+                element.materialUnique = material[2];
+            }
+            courseWorks.unshift([
+                element.alternateLink,
+                element.assigneeMode,
+                element.assignment,
+                element.associatedWithDeveloper,
+                element.courseId,
+                element.creationTime,
+                element.creatorUserId,
+                element.description,
+                element.dueDate,
+                element.dueTime,
+                element.id,
+                element.individualStudentsOptions,
+                element.materials,
+                element.maxPoints,
+                element.multipleChoiceQuestion,
+                element.scheduledTime,
+                element.state,
+                element.submissionModificationMode,
+                element.title,
+                element.topicId,
+                element.updateTime,
+                element.workType,
+                element.materialTitleAndUrlText,
+                element.materialTitleAndUrlObj,
+                element.materialUnique,
+            ]);
+        });
+        ss.getRange(2, 1, courseWorks.length, courseWorks[0].length).setValues(courseWorks);
 
-    const status = ss.getRange(2, 26, ss.getLastRow() - 1, 1).getValues();
-    status.forEach((element, index) => {
-        if (element[0] !== "sent") {
-            const unsentCourseWork = ss.getRange(index + 2, 1, 1, 25).getValues()[0];
-            let unsentCourseWorkObj = {
-                alternateLink: unsentCourseWork[0],
-                assigneeMode: unsentCourseWork[1],
-                assingnment: unsentCourseWork[2],
-                associatedWithDeveloper: unsentCourseWork[3],
-                courseId: unsentCourseWork[4],
-                creationTime: unsentCourseWork[5],
-                creatorUserId: unsentCourseWork[6],
-                description: unsentCourseWork[7],
-                dueDate: unsentCourseWork[8],
-                dueTimeid: unsentCourseWork[9],
-                id: unsentCourseWork[10],
-                individualStudentaOptions: unsentCourseWork[11],
-                materials: unsentCourseWork[12],
-                maxPoints: unsentCourseWork[13],
-                multipleChoiceQuestion: unsentCourseWork[14],
-                scheduledTIme: unsentCourseWork[15],
-                state: unsentCourseWork[16],
-                submissionModeficationMode: unsentCourseWork[17],
-                title: unsentCourseWork[18],
-                topicId: unsentCourseWork[19],
-                updateTime: unsentCourseWork[20],
-                worktype: unsentCourseWork[21],
-                materialTitleAndUrlText: unsentCourseWork[22],
-                materialTitleAndUrlObj: `${unsentCourseWork[23]}`,
-                materialUnique: `${unsentCourseWork[24]}`,
-            };
+        const status = ss.getRange(2, 26, ss.getLastRow() - 1, 1).getValues();
+        status.forEach((element, index) => {
+            if (element[0] !== "sent") {
+                const unsentCourseWork = ss.getRange(index + 2, 1, 1, 25).getValues()[0];
+                let unsentCourseWorkObj = {
+                    alternateLink: unsentCourseWork[0],
+                    assigneeMode: unsentCourseWork[1],
+                    assingnment: unsentCourseWork[2],
+                    associatedWithDeveloper: unsentCourseWork[3],
+                    courseId: unsentCourseWork[4],
+                    creationTime: unsentCourseWork[5],
+                    creatorUserId: unsentCourseWork[6],
+                    description: unsentCourseWork[7],
+                    dueDate: unsentCourseWork[8],
+                    dueTimeid: unsentCourseWork[9],
+                    id: unsentCourseWork[10],
+                    individualStudentaOptions: unsentCourseWork[11],
+                    materials: unsentCourseWork[12],
+                    maxPoints: unsentCourseWork[13],
+                    multipleChoiceQuestion: unsentCourseWork[14],
+                    scheduledTIme: unsentCourseWork[15],
+                    state: unsentCourseWork[16],
+                    submissionModeficationMode: unsentCourseWork[17],
+                    title: unsentCourseWork[18],
+                    topicId: unsentCourseWork[19],
+                    updateTime: unsentCourseWork[20],
+                    worktype: unsentCourseWork[21],
+                    materialTitleAndUrlText: unsentCourseWork[22],
+                    materialTitleAndUrlObj: `${unsentCourseWork[23]}`,
+                    materialUnique: `${unsentCourseWork[24]}`,
+                };
 
-            //データ一部書き換え
-            unsentCourseWorkObj.creatorUserName = Classroom.Courses.Teachers.get(COURSE_ID, unsentCourseWorkObj.creatorUserId).profile.name.familyName + "先生";
-            unsentCourseWorkObj.updateTime = convertTime(unsentCourseWorkObj.updateTime);
+                //データ一部書き換え
+                unsentCourseWorkObj.creatorUserName = Classroom.Courses.Teachers.get(COURSE_ID, unsentCourseWorkObj.creatorUserId).profile.name.familyName + "先生";
+                unsentCourseWorkObj.updateTime = convertTime(unsentCourseWorkObj.updateTime);
 
-            //データなしに"none"を代入
-            for (key in unsentCourseWorkObj) {
-                if (unsentCourseWorkObj[key] == "" || unsentCourseWorkObj[key] == "[]") {
-                    unsentCourseWorkObj[key] = "none";
+                //データなしに"none"を代入
+                for (key in unsentCourseWorkObj) {
+                    if (unsentCourseWorkObj[key] == "" || unsentCourseWorkObj[key] == "[]") {
+                        unsentCourseWorkObj[key] = "none";
+                    }
                 }
+
+                //テキスト用のデータ
+                let textToPost = `${unsentCourseWorkObj.title}\n${unsentCourseWorkObj.description}}`;
+                if (unsentCourseWorkObj.materialTitleAndUrlText != "none") {
+                    textToPost += `\n${unsentCourseWorkObj.materialTitleAndUrlText}`;
+                }
+
+                //post
+                postFlexToMe(convertCourseWorkIntoLineFlex(unsentCourseWorkObj), composeAltText(unsentCourseWorkObj.title));
+
+                //Write "sent" on sheet
+                ss.getRange(index + 2, 26, 1, 1).setValue("sent");
             }
-
-            //テキスト用のデータ
-            let textToPost = `${unsentCourseWorkObj.title}\n${unsentCourseWorkObj.description}}`;
-            if (unsentCourseWorkObj.materialTitleAndUrlText != "none") {
-                textToPost += `\n${unsentCourseWorkObj.materialTitleAndUrlText}`;
-            }
-
-            //post
-            postFlexToMe(convertCourseWorkIntoLineFlex(unsentCourseWorkObj), composeAltText(unsentCourseWorkObj.title));
-
-            //Write "sent" on sheet
-            ss.getRange(index + 2, 26, 1, 1).setValue("sent");
-        }
-    });
+        });
+    }
 }
 
 function getCourseWorkMaterials() {
     const ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("courseWorkMaterials");
     const courseWorkMaterialsList = Classroom.Courses.CourseWorkMaterials.list(COURSE_ID).courseWorkMaterial;
     const courseWorkMaterials = [];
-    courseWorkMaterialsList.forEach((element) => {
-        if (element.materials != undefined) {
-            const material = converteMaterial(element.materials);
-            element.materialTitleAndUrlText = material[0];
-            element.materialTitleAndUrlObj = material[1];
-            element.materialUnique = material[2];
-            courseWorkMaterials.unshift([element.courseId, element.id, element.title, element.description, element.materials, element.state, element.alternateLink, element.creationTime, element.updateTime, element.scheduledTime, element.assigneeMode, element.individualStudentsOptions, element.creatorUserId, element.topicId, element.materialTitleAndUrlText, element.materialTitleAndUrlObj, element.materialUnique]);
-        }
-    });
-    ss.getRange(2, 1, courseWorkMaterials.length, courseWorkMaterials[0].length).setValues(courseWorkMaterials);
+    if (courseWorkMaterialsList.length == 0) {
+        console.log("courseWorkMaterialsList is empty");
+    } else {
+        courseWorkMaterialsList.forEach((element) => {
+            if (element.materials != undefined) {
+                const material = converteMaterial(element.materials);
+                element.materialTitleAndUrlText = material[0];
+                element.materialTitleAndUrlObj = material[1];
+                element.materialUnique = material[2];
+                courseWorkMaterials.unshift([element.courseId, element.id, element.title, element.description, element.materials, element.state, element.alternateLink, element.creationTime, element.updateTime, element.scheduledTime, element.assigneeMode, element.individualStudentsOptions, element.creatorUserId, element.topicId, element.materialTitleAndUrlText, element.materialTitleAndUrlObj, element.materialUnique]);
+            }
+        });
+        ss.getRange(2, 1, courseWorkMaterials.length, courseWorkMaterials[0].length).setValues(courseWorkMaterials);
 
-    const status = ss.getRange(2, 18, ss.getLastRow() - 1, 1).getValues();
-    status.forEach((element, index) => {
-        if (element[0] !== "sent") {
-            let unsentCourseWorkMaterial = ss.getRange(index + 2, 1, 1, 17).getValues()[0];
-            let unsentCourseWorkMaterialObj = {
-                courseId: unsentCourseWorkMaterial[0],
-                id: unsentCourseWorkMaterial[1],
-                title: unsentCourseWorkMaterial[2],
-                description: unsentCourseWorkMaterial[3],
-                materials: unsentCourseWorkMaterial[4],
-                state: unsentCourseWorkMaterial[5],
-                alternateLink: unsentCourseWorkMaterial[6],
-                creationTime: unsentCourseWorkMaterial[7],
-                updateTime: unsentCourseWorkMaterial[8],
-                scheduledTime: unsentCourseWorkMaterial[9],
-                assigneeMode: unsentCourseWorkMaterial[10],
-                individualStudentsOpsions: unsentCourseWorkMaterial[11],
-                creatorUserId: unsentCourseWorkMaterial[12],
-                topicId: unsentCourseWorkMaterial[13],
-                materialTitleAndUrlText: unsentCourseWorkMaterial[14],
-                materialTitleAndUrlObj: `${unsentCourseWorkMaterial[15]}`,
-                materialUnique: `${unsentCourseWorkMaterial[16]}`,
-            };
+        const status = ss.getRange(2, 18, ss.getLastRow() - 1, 1).getValues();
+        status.forEach((element, index) => {
+            if (element[0] !== "sent") {
+                let unsentCourseWorkMaterial = ss.getRange(index + 2, 1, 1, 17).getValues()[0];
+                let unsentCourseWorkMaterialObj = {
+                    courseId: unsentCourseWorkMaterial[0],
+                    id: unsentCourseWorkMaterial[1],
+                    title: unsentCourseWorkMaterial[2],
+                    description: unsentCourseWorkMaterial[3],
+                    materials: unsentCourseWorkMaterial[4],
+                    state: unsentCourseWorkMaterial[5],
+                    alternateLink: unsentCourseWorkMaterial[6],
+                    creationTime: unsentCourseWorkMaterial[7],
+                    updateTime: unsentCourseWorkMaterial[8],
+                    scheduledTime: unsentCourseWorkMaterial[9],
+                    assigneeMode: unsentCourseWorkMaterial[10],
+                    individualStudentsOpsions: unsentCourseWorkMaterial[11],
+                    creatorUserId: unsentCourseWorkMaterial[12],
+                    topicId: unsentCourseWorkMaterial[13],
+                    materialTitleAndUrlText: unsentCourseWorkMaterial[14],
+                    materialTitleAndUrlObj: `${unsentCourseWorkMaterial[15]}`,
+                    materialUnique: `${unsentCourseWorkMaterial[16]}`,
+                };
 
-            //データ一部書き換え
-            unsentCourseWorkMaterialObj.creatorUserName = Classroom.Courses.Teachers.get(COURSE_ID, unsentCourseWorkMaterialObj.creatorUserId).profile.name.familyName + "先生";
-            unsentCourseWorkMaterialObj.updateTime = convertTime(unsentCourseWorkMaterialObj.updateTime);
+                //データ一部書き換え
+                unsentCourseWorkMaterialObj.creatorUserName = Classroom.Courses.Teachers.get(COURSE_ID, unsentCourseWorkMaterialObj.creatorUserId).profile.name.familyName + "先生";
+                unsentCourseWorkMaterialObj.updateTime = convertTime(unsentCourseWorkMaterialObj.updateTime);
 
-            //データ無しに"none"を代入
-            for (key in unsentCourseWorkMaterialObj) {
-                if (unsentCourseWorkMaterialObj[key] == "" || unsentCourseWorkMaterialObj[key] == "[]") {
-                    unsentCourseWorkMaterialObj[key] = "none";
+                //データ無しに"none"を代入
+                for (key in unsentCourseWorkMaterialObj) {
+                    if (unsentCourseWorkMaterialObj[key] == "" || unsentCourseWorkMaterialObj[key] == "[]") {
+                        unsentCourseWorkMaterialObj[key] = "none";
+                    }
                 }
-            }
 
-            //テキスト用のデータ
-            let textToPost = `${unsentCourseWorkMaterialObj.title}\n${unsentCourseWorkMaterialObj.description}`;
-            if (unsentCourseWorkMaterialObj.materialTitleAndUrlText != "none") {
-                textToPost += `\n${unsentCourseWorkMaterialObj.materialTitleAndUrlText}`;
-            }
+                //テキスト用のデータ
+                let textToPost = `${unsentCourseWorkMaterialObj.title}\n${unsentCourseWorkMaterialObj.description}`;
+                if (unsentCourseWorkMaterialObj.materialTitleAndUrlText != "none") {
+                    textToPost += `\n${unsentCourseWorkMaterialObj.materialTitleAndUrlText}`;
+                }
 
-            //post
-            postFlexToMe(convertCourseWorkMaterialIntoLineFlex(unsentCourseWorkMaterialObj), composeAltText(unsentCourseWorkMaterialObj.title));
-            //Write "sent" on sheet
-            ss.getRange(index + 2, 18, 1, 1).setValue("sent");
-        }
-    });
+                //post
+                postFlexToMe(convertCourseWorkMaterialIntoLineFlex(unsentCourseWorkMaterialObj), composeAltText(unsentCourseWorkMaterialObj.title));
+                //Write "sent" on sheet
+                ss.getRange(index + 2, 18, 1, 1).setValue("sent");
+            }
+        });
+    }
 }
 
 function getAnnouncements() {
     const ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("announcements");
     const announcementsList = Classroom.Courses.Announcements.list(COURSE_ID).announcements;
     const announcements = [];
-    announcementsList.forEach((element) => {
-        if (element.materials != undefined) {
-            const material = converteMaterial(element.materials);
-            element.materialTitleAndUrlText = material[0];
-            element.materialTitleAndUrlObj = material[1];
-            element.materialUnique = material[2];
-        }
-        announcements.unshift([element.alternateLink, element.assigneeMode, element.courseId, element.creationTime, element.creatorUserId, element.id, element.individualStudentsOptions, element.materials, element.state, element.text, element.updateTime, element.materialTitleAndUrlText, element.materialTitleAndUrlObj, element.materialUnique]);
-    });
-    ss.getRange(2, 1, announcements.length, announcements[0].length).setValues(announcements);
+    if (announcementsList.length == 0) {
+        console.log("announcementsList is empty");
+    } else {
+        announcementsList.forEach((element) => {
+            if (element.materials != undefined) {
+                const material = converteMaterial(element.materials);
+                element.materialTitleAndUrlText = material[0];
+                element.materialTitleAndUrlObj = material[1];
+                element.materialUnique = material[2];
+            }
+            announcements.unshift([element.alternateLink, element.assigneeMode, element.courseId, element.creationTime, element.creatorUserId, element.id, element.individualStudentsOptions, element.materials, element.state, element.text, element.updateTime, element.materialTitleAndUrlText, element.materialTitleAndUrlObj, element.materialUnique]);
+        });
+        ss.getRange(2, 1, announcements.length, announcements[0].length).setValues(announcements);
 
-    const status = ss.getRange(2, 15, ss.getLastRow() - 1, 1).getValues();
-    status.forEach((element, index) => {
-        if (element[0] !== "sent") {
-            const unsentAnnouncement = ss.getRange(index + 2, 1, 1, 14).getValues()[0];
-            let unsentAnnouncementObj = {
-                alternateLink: unsentAnnouncement[0],
-                assigneeMode: unsentAnnouncement[1],
-                courseId: unsentAnnouncement[2],
-                creationTime: unsentAnnouncement[3],
-                creatorUserId: unsentAnnouncement[4],
-                id: unsentAnnouncement[5],
-                individualStudentsOptions: unsentAnnouncement[6],
-                materials: unsentAnnouncement[7],
-                state: unsentAnnouncement[8],
-                text: unsentAnnouncement[9],
-                updateTime: unsentAnnouncement[10],
-                materialTitleAndUrlText: unsentAnnouncement[11],
-                materialTitleAndUrlObj: `${unsentAnnouncement[12]}`,
-                materialUnique: `${unsentAnnouncement[13]}`,
-            };
-            //データ一部書き換え
-            unsentAnnouncementObj.creatorUserName = Classroom.Courses.Teachers.get(COURSE_ID, unsentAnnouncementObj.creatorUserId).profile.name.familyName + "先生";
-            unsentAnnouncementObj.updateTime = convertTime(unsentAnnouncementObj.updateTime);
+        const status = ss.getRange(2, 15, ss.getLastRow() - 1, 1).getValues();
+        status.forEach((element, index) => {
+            if (element[0] !== "sent") {
+                const unsentAnnouncement = ss.getRange(index + 2, 1, 1, 14).getValues()[0];
+                let unsentAnnouncementObj = {
+                    alternateLink: unsentAnnouncement[0],
+                    assigneeMode: unsentAnnouncement[1],
+                    courseId: unsentAnnouncement[2],
+                    creationTime: unsentAnnouncement[3],
+                    creatorUserId: unsentAnnouncement[4],
+                    id: unsentAnnouncement[5],
+                    individualStudentsOptions: unsentAnnouncement[6],
+                    materials: unsentAnnouncement[7],
+                    state: unsentAnnouncement[8],
+                    text: unsentAnnouncement[9],
+                    updateTime: unsentAnnouncement[10],
+                    materialTitleAndUrlText: unsentAnnouncement[11],
+                    materialTitleAndUrlObj: `${unsentAnnouncement[12]}`,
+                    materialUnique: `${unsentAnnouncement[13]}`,
+                };
+                //データ一部書き換え
+                unsentAnnouncementObj.creatorUserName = Classroom.Courses.Teachers.get(COURSE_ID, unsentAnnouncementObj.creatorUserId).profile.name.familyName + "先生";
+                unsentAnnouncementObj.updateTime = convertTime(unsentAnnouncementObj.updateTime);
 
-            //データなしに"none"を代入
-            for (key in unsentAnnouncementObj) {
-                if (unsentAnnouncementObj[key] == "" || unsentAnnouncementObj[key] == "[]") {
-                    unsentAnnouncementObj[key] = "none";
+                //データなしに"none"を代入
+                for (key in unsentAnnouncementObj) {
+                    if (unsentAnnouncementObj[key] == "" || unsentAnnouncementObj[key] == "[]") {
+                        unsentAnnouncementObj[key] = "none";
+                    }
                 }
-            }
 
-            //テキスト用のデータ
-            let textToPost = `${unsentAnnouncementObj.text}\n}`;
-            if (unsentAnnouncementObj.materialTitleAndUrlText != "none") {
-                textToPost += `\n${unsentAnnouncementObj.materialTitleAndUrlText}`;
-            }
+                //テキスト用のデータ
+                let textToPost = `${unsentAnnouncementObj.text}\n}`;
+                if (unsentAnnouncementObj.materialTitleAndUrlText != "none") {
+                    textToPost += `\n${unsentAnnouncementObj.materialTitleAndUrlText}`;
+                }
 
-            //post
-            postFlexToMe(convertAccouncementIntoLineFlex(unsentAnnouncementObj), composeAltText(unsentAnnouncementObj.text));
-            //Write "sent" on sheet
-            ss.getRange(index + 2, 15, 1, 1).setValue("sent");
-        }
-    });
+                //post
+                postFlexToMe(convertAccouncementIntoLineFlex(unsentAnnouncementObj), composeAltText(unsentAnnouncementObj.text));
+                //Write "sent" on sheet
+                ss.getRange(index + 2, 15, 1, 1).setValue("sent");
+            }
+        });
+    }
 }
 
 /**
@@ -305,7 +317,7 @@ function converteMaterial(materials) {
                 //  materialUnique.push("googleforms");
             } else if (title != undefined) {
                 let extention = "file";
-                extention = title.split(".").pop(); //拡張子取り出し
+                extention = title.split(".").pop(); //拡張子切り出し
                 if (extention == "mp3" || extention == "m4a") {
                     extention = "audio";
                 } else if (extention == "JPG" || extention == "png" || extention == "HEIC") {
@@ -313,7 +325,7 @@ function converteMaterial(materials) {
                 } else if (extention == "MOV" || extention == "mp4" || extention == "m4v" || extention == "mov" || extention == "avi" || extention == "MKV") {
                     extention = "video";
                 } else if (EXTENTIONS_ARRAY.indexOf(extention) == -1) {
-                    //上記に該当なしでEXTENTIONS_ARRAYにもなし
+                    //上記にもでEXTENTIONS_ARRAYにもない拡張子
                     extention = "file";
                 }
                 materialUnique.push(extention);
