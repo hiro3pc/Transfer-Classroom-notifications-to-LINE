@@ -6,7 +6,8 @@ Google Classroomの投稿をLINEグループに転送するスクリプトです
 - Google Formのリンクからフォームを回答すると課題の完了マークが付きません。
 - アーカイブされたクラスでは実行できません。(投稿の取得ができない)
 - LINE公式アカウントに投稿制限があります。制限に達すると投稿されなくなるので注意してください。
-  詳しくは[LINE Developer](https://developers.line.biz/ja/reference/messaging-api/#rate-limits)を参照してください。
+  詳しくは[LINE Developer](https://developers.line.biz/ja/reference/messaging-api/#rate-limits)を参照してください。  
+- [Google Apps Script リファレンス](https://developers.google.com/apps-script/reference?hl=ja)
 
 
 ## 手順
