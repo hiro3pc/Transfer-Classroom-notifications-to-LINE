@@ -289,12 +289,10 @@ function getAnnouncements() {
  * @returns {string} text up to 400 characters
  */
 function composeAltText(text) {
-    if (text != "null") {
-        if (text.length >= 397) {
-            return text.slice(0, 397) + "...";
-        } else {
-            return text;
-        }
+    if (text.length >= 400) {
+        return text.slice(0, 397) + "...";
+    } else {
+        return text;
     }
 }
 
@@ -304,12 +302,13 @@ function composeAltText(text) {
  * @returns {string} text up to 40 characters
  */
 function composeLineFlexLabel(text) {
-    if (text != "null") {
-        if (text.length >= 40) {
-            return text.slice(0, 36) + "...";
-        } else {
-            return text;
-        }
+    if (typeof text != "string") {
+        text = "null"; //タイトルが存在しない可能性があり、そのときLINE側でエラーが出るのでここで"null"(String)を代入しています。他のプロパティは欠けることはないまたはすでに"null"を代入しています。
+    }
+    if (text.length >= 40) {
+        return text.slice(0, 36) + "...";
+    } else {
+        return text;
     }
 }
 
@@ -326,15 +325,15 @@ function converteMaterial(materials) {
         //url判断
         if (i.form != undefined) {
             materialUnique.push("googleforms");
-            //  materialsTextAndUrlLists += i.form.title + " : " + i.form.formUrl + "\n";
-            //  materialsObjArray.push({ title: i.form.title, link: i.form.formUrl ,color:""});
+            materialsTextAndUrlLists += i.form.title + " : " + i.form.formUrl + "\n";
+            materialsObjArray.push({ title: i.form.title, link: i.form.formUrl, format: "googleforms" });
         } else if (i.link != undefined) {
             materialsTextAndUrlLists += i.link.title + " : " + i.link.url + "\n";
-            materialsObjArray.push({ title: i.link.title, link: i.link.url, format: "link", color: "#0000ff" });
+            materialsObjArray.push({ title: i.link.title, link: i.link.url, format: "link" });
             materialUnique.push("link");
         } else if (i.youtubeVideo != undefined) {
             materialsTextAndUrlLists += i.youtubeVideo.title + " : " + i.youtubeVideo.alternateLink + "\n";
-            materialsObjArray.push({ title: i.youtubeVideo.title, link: i.youtubeVideo.alternateLink, format: "youtube", color: "#ff0015" });
+            materialsObjArray.push({ title: i.youtubeVideo.title, link: i.youtubeVideo.alternateLink, format: "youtube" });
             materialUnique.push("youtube");
         } else if (i.driveFile != undefined) {
             let title = i.driveFile.driveFile.title;
@@ -342,13 +341,13 @@ function converteMaterial(materials) {
             materialsTextAndUrlLists += title + " : " + alternateLink + "\n";
             if (alternateLink.indexOf("spreadsheets") != -1) {
                 materialUnique.push("googlesheets");
-                materialsObjArray.push({ title: title, link: alternateLink, format: "googlesheets", color: "#01ac47" }); //同名　怖い
+                materialsObjArray.push({ title: title, link: alternateLink, format: "googlesheets" }); //同名　怖い
             } else if (alternateLink.indexOf("document") != -1) {
                 materialUnique.push("googledocs");
-                materialsObjArray.push({ title: title, link: alternateLink, format: "googledocs", color: "#2584fc" }); //同名　怖い
+                materialsObjArray.push({ title: title, link: alternateLink, format: "googledocs" }); //同名　怖い
             } else if (alternateLink.indexOf("presentation") != -1) {
                 materialUnique.push("googleslides");
-                materialsObjArray.push({ title: title, link: alternateLink, format: "googleslides", color: "#ffba00" }); //同名　怖い
+                materialsObjArray.push({ title: title, link: alternateLink, format: "googleslides" }); //同名　怖い
                 //} else if (title.indexOf("forms") != -1) {
                 //  materialUnique.push("googleforms");
             } else if (title != undefined) {
@@ -371,8 +370,7 @@ function converteMaterial(materials) {
     }
 
     //ユニークと並び替え
-    materialUnique = [...new Set(materialUnique)];
-    materialUnique = materialUnique.sort();
+    materialUnique = [];
     return { materialsTextAndUrlLists: materialsTextAndUrlLists, materialsObjArray: JSON.stringify(materialsObjArray), materialUnique: JSON.stringify(materialUnique) }; //3つめ JSON or 配列をjoin
 }
 

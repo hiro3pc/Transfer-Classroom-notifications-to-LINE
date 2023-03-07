@@ -13,19 +13,3 @@ function getCourseList() {
         Logger.log("No courses found.");
     }
 }
-
-/**
- * 課題の下書きを作成する
- */
-/*
-function createAssignment() {
-    const resource = {
-        title: "課題のタイトル",
-        description: "課題の説明",
-        state: "DRAFT",
-        workType: "ASSIGNMENT",
-    };
-    const res = Classroom.Courses.CourseWork.create(resource, COURSE_ID);
-    console.log(res);
-}
-*/

@@ -103,33 +103,18 @@ function convertCourseWorkIntoLineFlex(data) {
 
         let addDataArray = [];
         materialsArray.forEach((element) => {
-            if (element.format == "link" || element.format == "docx" || element.format == "xlsx") {
-                addDataArray.push({
-                    type: "button",
-                    action: {
-                        type: "uri",
-                        label: composeLineFlexLabel(element.title),
-                        uri: element.link,
-                    },
-                    margin: "sm",
-                    color: ICON_COLOR[element.format],
-                    style: "primary",
-                    height: "sm",
-                });
-            } else {
-                addDataArray.push({
-                    type: "button",
-                    action: {
-                        type: "uri",
-                        label: composeLineFlexLabel(element.title),
-                        uri: element.link,
-                    },
-                    margin: "sm",
-                    color: ICON_COLOR[element.format],
-                    style: "secondary",
-                    height: "sm",
-                });
-            }
+            addDataArray.push({
+                type: "button",
+                action: {
+                    type: "uri",
+                    label: composeLineFlexLabel(element.title),
+                    uri: element.link,
+                },
+                margin: "sm",
+                color: ICON_COLOR[element.format],
+                style: "secondary",
+                height: "sm",
+            });
         });
 
         body.body.contents.push({
@@ -137,20 +122,6 @@ function convertCourseWorkIntoLineFlex(data) {
             layout: "vertical",
             contents: addDataArray,
             margin: "md",
-        });
-    }
-    if (data.materialUnique != "null") {
-        const materialFormatArray = JSON.parse(data.materialUnique);
-
-        materialFormatArray.forEach((elem) => {
-            if (elem != undefined) {
-                let iconAddData = {
-                    type: "icon",
-                    url: ICON_LINK[elem],
-                    size: "xl",
-                };
-                body.body.contents[0].contents[0].contents.push(iconAddData);
-            }
         });
     }
     return body;
@@ -261,33 +232,18 @@ function convertCourseWorkMaterialIntoLineFlex(data) {
 
         let addDataArray = [];
         materialsArray.forEach((element) => {
-            if (element.format == "link" || element.format == "docx" || element.format == "xlsx") {
-                addDataArray.push({
-                    type: "button",
-                    action: {
-                        type: "uri",
-                        label: composeLineFlexLabel(element.title),
-                        uri: element.link,
-                    },
-                    margin: "sm",
-                    color: ICON_COLOR[element.format],
-                    style: "primary",
-                    height: "sm",
-                });
-            } else {
-                addDataArray.push({
-                    type: "button",
-                    action: {
-                        type: "uri",
-                        label: composeLineFlexLabel(element.title),
-                        uri: element.link,
-                    },
-                    margin: "sm",
-                    color: ICON_COLOR[element.format],
-                    style: "secondary",
-                    height: "sm",
-                });
-            }
+            addDataArray.push({
+                type: "button",
+                action: {
+                    type: "uri",
+                    label: composeLineFlexLabel(element.title),
+                    uri: element.link,
+                },
+                margin: "sm",
+                color: ICON_COLOR[element.format],
+                style: "secondary",
+                height: "sm",
+            });
         });
 
         body.body.contents.push({
@@ -295,20 +251,6 @@ function convertCourseWorkMaterialIntoLineFlex(data) {
             layout: "vertical",
             contents: addDataArray,
             margin: "md",
-        });
-    }
-    if (data.materialUnique != "null") {
-        const materialFormatArray = JSON.parse(data.materialUnique);
-
-        materialFormatArray.forEach((elem) => {
-            if (elem != undefined) {
-                let iconAddData = {
-                    type: "icon",
-                    url: ICON_LINK[elem],
-                    size: "xl",
-                };
-                body.body.contents[0].contents[0].contents.push(iconAddData);
-            }
         });
     }
     return body;
@@ -410,33 +352,18 @@ function convertAccouncementIntoLineFlex(data) {
 
         let addDataArray = [];
         materialsArray.forEach((element) => {
-            if (element.format == "link" || element.format == "docx" || element.format == "xlsx") {
-                addDataArray.push({
-                    type: "button",
-                    action: {
-                        type: "uri",
-                        label: composeLineFlexLabel(element.title),
-                        uri: element.link,
-                    },
-                    margin: "sm",
-                    color: ICON_COLOR[element.format],
-                    style: "primary", //文字色 白
-                    height: "sm",
-                });
-            } else {
-                addDataArray.push({
-                    type: "button",
-                    action: {
-                        type: "uri",
-                        label: composeLineFlexLabel(element.title),
-                        uri: element.link,
-                    },
-                    margin: "sm",
-                    color: ICON_COLOR[element.format],
-                    style: "secondary", //文字色 黒
-                    height: "sm",
-                });
-            }
+            addDataArray.push({
+                type: "button",
+                action: {
+                    type: "uri",
+                    label: composeLineFlexLabel(element.title),
+                    uri: element.link,
+                },
+                margin: "sm",
+                color: ICON_COLOR[element.format],
+                style: "secondary", //文字色 黒
+                height: "sm",
+            });
         });
 
         body.body.contents.push({
@@ -446,19 +373,6 @@ function convertAccouncementIntoLineFlex(data) {
             margin: "md",
         });
     }
-    if (data.materialUnique != "null") {
-        const materialFormatArray = JSON.parse(data.materialUnique);
 
-        materialFormatArray.forEach((elem) => {
-            if (elem != undefined) {
-                let iconAddData = {
-                    type: "icon",
-                    url: ICON_LINK[elem],
-                    size: "xl",
-                };
-                body.body.contents[0].contents[0].contents.push(iconAddData);
-            }
-        });
-    }
     return body;
 }
